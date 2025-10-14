@@ -11,8 +11,13 @@ export const EventsTable = () => {
 
   useEffect(() => {
     const fetchLogs = async () => {
-      const data = await getRecentLogs(7);
-      setLogs(data);
+      try {
+        const data = await getRecentLogs(7);
+        setLogs(data);
+      } catch (error) {
+        console.error("Erro ao carregar logs:", error);
+        // Mantém array vazio em caso de erro
+      }
     };
     fetchLogs();
   }, []);

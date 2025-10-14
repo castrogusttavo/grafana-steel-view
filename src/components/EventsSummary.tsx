@@ -9,10 +9,15 @@ export const EventsSummary = () => {
 
   useEffect(() => {
     const fetchData = async () => {
-      const total = await getTotalEvents();
-      const summary = await getEventSummary();
-      setTotalEvents(total);
-      setEvents(summary);
+      try {
+        const total = await getTotalEvents();
+        const summary = await getEventSummary();
+        setTotalEvents(total);
+        setEvents(summary);
+      } catch (error) {
+        console.error("Erro ao carregar resumo de eventos:", error);
+        // Mantém valores vazios em caso de erro
+      }
     };
     fetchData();
   }, []);
