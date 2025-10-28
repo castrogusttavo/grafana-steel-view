@@ -9,6 +9,7 @@ export interface LogEntry {
   root_path: string;
   details: string | null;
   user_name: string;
+  hostname: string | null;
   ip_address: string | null;
   synced_to_external: boolean;
   flag: number;
@@ -215,6 +216,7 @@ export const getRecentLogs = async (limit: number = 50): Promise<LogEntry[]> => 
       root_path,
       details,
       user_name,
+      hostname,
       ip_address,
       synced_to_external,
       flag

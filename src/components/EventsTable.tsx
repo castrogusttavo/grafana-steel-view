@@ -25,7 +25,8 @@ export const EventsTable = () => {
   const filteredLogs = logs.filter(log => 
     log.path.toLowerCase().includes(searchTerm.toLowerCase()) ||
     log.event.toLowerCase().includes(searchTerm.toLowerCase()) ||
-    log.user_name.toLowerCase().includes(searchTerm.toLowerCase())
+    log.user_name.toLowerCase().includes(searchTerm.toLowerCase()) ||
+    (log.hostname && log.hostname.toLowerCase().includes(searchTerm.toLowerCase()))
   );
 
   const getEventBadgeVariant = (event: string) => {
@@ -99,6 +100,9 @@ export const EventsTable = () => {
               <th className="px-4 py-3 text-left text-xs font-medium text-muted-foreground uppercase tracking-wider">
                 Usuário
               </th>
+              <th className="px-4 py-3 text-left text-xs font-medium text-muted-foreground uppercase tracking-wider">
+                Hostname
+              </th>
             </tr>
           </thead>
           <tbody className="divide-y divide-border">
@@ -123,6 +127,9 @@ export const EventsTable = () => {
                 </td>
                 <td className="px-4 py-3 text-sm text-foreground">
                   {log.user_name}
+                </td>
+                <td className="px-4 py-3 text-sm text-foreground">
+                  {log.hostname || '-'}
                 </td>
               </tr>
             ))}
