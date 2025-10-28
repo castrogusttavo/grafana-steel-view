@@ -308,12 +308,12 @@ export const formatNumber = (num: number): string => {
 
 /**
  * Insert: Adiciona nova configuração de sensibilidade
- * INSERT INTO root_sensitivity (root_path, sensitive) VALUES (?, ?)
+ * INSERT INTO root_sensitivity (root_path, root_hash, sensitive) VALUES (?, MD5(?), ?)
  */
 export const insertRootSensitivity = async (rootPath: string, sensitive: number): Promise<void> => {
   const query = `
-    INSERT INTO root_sensitivity (root_path, sensitive) 
-    VALUES ('${rootPath.replace(/'/g, "''")}', ${sensitive})
+    INSERT INTO root_sensitivity (root_path, root_hash, sensitive) 
+    VALUES ('${rootPath.replace(/'/g, "''")}', MD5('${rootPath.replace(/'/g, "''")}'), ${sensitive})
   `;
   
   await executeQuery(query);
