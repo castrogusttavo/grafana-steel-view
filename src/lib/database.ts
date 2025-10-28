@@ -308,12 +308,13 @@ export const formatNumber = (num: number): string => {
 
 /**
  * Insert: Adiciona nova configuração de sensibilidade
- * INSERT INTO root_sensitivity (root_path, root_hash, sensitive) VALUES (?, MD5(?), ?)
+ * O trigger generate_root_hash gera automaticamente o root_hash a partir do root_path
+ * INSERT INTO root_sensitivity (root_path, sensitive) VALUES (?, ?)
  */
 export const insertRootSensitivity = async (rootPath: string, sensitive: number): Promise<void> => {
   const query = `
-    INSERT INTO root_sensitivity (root_path, root_hash, sensitive) 
-    VALUES ('${rootPath.replace(/'/g, "''")}', MD5('${rootPath.replace(/'/g, "''")}'), ${sensitive})
+    INSERT INTO root_sensitivity (root_path, sensitive) 
+    VALUES ('${rootPath.replace(/'/g, "''")}', ${sensitive})
   `;
   
   await executeQuery(query);
