@@ -202,6 +202,34 @@ app.get('/api/metrics/event-summary', async (req, res) => {
   }
 });
 
+// Endpoint dedicado para inserir root_sensitivity
+app.post('/api/root-sensitivity', async (req, res) => {
+  try {
+    const { root_path, sensitive } = req.body;
+    if (typeof root_path !== 'string' || !root_path.trim()) {
+      return res.status(400).json({ success: false, error: 'root_path inválido' });
+    }
+    if (root_path.length > 1024) {
+      return res.status(400).json({ success: false, error: 'root_path excede 1024 caracteres' });
+    }
+    const sens = Number(sensitive) === 1 ? 1 : 0;
+
+    await pool.query(
+      'INSERT INTO root_sensitivity (root_path, sensitive) VALUES (?, ?)',
+      [root_path, sens]
+    );
+
+    return res.json({ success: true });
+  } catch (error) {
+    if (error.code === 'ER_DUP_ENTRY') {
+      // Já existe para este root_path (mesmo hash). Considera sucesso idempotente
+      return res.json({ success: true, warning: 'Registro já existia' });
+    }
+    console.error('Erro no insert root_sensitivity:', error.message);
+    return res.status(500).json({ success: false, error: error.message });
+  }
+});
+
 // ========== 404 HANDLER ==========
 app.use((req, res) => {
   res.status(404).json({

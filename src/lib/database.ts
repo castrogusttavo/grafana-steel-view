@@ -43,7 +43,7 @@ const DB_CONFIG = {
 };
 
 // Importa a função de API
-import { executeQuery as apiExecuteQuery } from "./api";
+import { executeQuery as apiExecuteQuery, insertRootSensitivityRequest } from "./api";
 
 // Helper para executar queries via backend API
 async function executeQuery<T>(query: string): Promise<T> {
@@ -309,13 +309,8 @@ export const formatNumber = (num: number): string => {
 /**
  * Insert: Adiciona nova configuração de sensibilidade
  * O trigger generate_root_hash gera automaticamente o root_hash a partir do root_path
- * INSERT INTO root_sensitivity (root_path, sensitive) VALUES (?, ?)
  */
 export const insertRootSensitivity = async (rootPath: string, sensitive: number): Promise<void> => {
-  const query = `
-    INSERT INTO root_sensitivity (root_path, sensitive) 
-    VALUES ('${rootPath.replace(/'/g, "''")}', ${sensitive})
-  `;
-  
-  await executeQuery(query);
+  // Usa endpoint dedicado no backend para segurança (o /api/query permite apenas SELECT)
+  await insertRootSensitivityRequest(rootPath, sensitive);
 };

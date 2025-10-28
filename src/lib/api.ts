@@ -56,3 +56,21 @@ export async function checkApiHealth(): Promise<boolean> {
     return false;
   }
 }
+
+/**
+ * Insert seguro para root_sensitivity (usa endpoint dedicado)
+ */
+export async function insertRootSensitivityRequest(rootPath: string, sensitive: number): Promise<void> {
+  const response = await fetch(`${API_BASE_URL}/root-sensitivity`, {
+    method: "POST",
+    headers: { "Content-Type": "application/json" },
+    body: JSON.stringify({ root_path: rootPath, sensitive }),
+  });
+  if (!response.ok) {
+    throw new Error(`HTTP error! status: ${response.status}`);
+  }
+  const result = await response.json();
+  if (!result.success) {
+    throw new Error(result.error || "Falha ao inserir configuração");
+  }
+}
