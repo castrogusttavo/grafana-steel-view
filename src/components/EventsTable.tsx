@@ -26,7 +26,8 @@ export const EventsTable = () => {
     log.path.toLowerCase().includes(searchTerm.toLowerCase()) ||
     log.event.toLowerCase().includes(searchTerm.toLowerCase()) ||
     log.user_name.toLowerCase().includes(searchTerm.toLowerCase()) ||
-    (log.hostname && log.hostname.toLowerCase().includes(searchTerm.toLowerCase()))
+    (log.hostname && log.hostname.toLowerCase().includes(searchTerm.toLowerCase())) ||
+    (log.ip_address && log.ip_address.toLowerCase().includes(searchTerm.toLowerCase()))
   );
 
   const getEventBadgeVariant = (event: string) => {
@@ -103,6 +104,9 @@ export const EventsTable = () => {
               <th className="px-4 py-3 text-left text-xs font-medium text-muted-foreground uppercase tracking-wider">
                 Hostname
               </th>
+              <th className="px-4 py-3 text-left text-xs font-medium text-muted-foreground uppercase tracking-wider">
+                IP
+              </th>
             </tr>
           </thead>
           <tbody className="divide-y divide-border">
@@ -130,6 +134,9 @@ export const EventsTable = () => {
                 </td>
                 <td className="px-4 py-3 text-sm text-foreground">
                   {log.hostname || '-'}
+                </td>
+                <td className="px-4 py-3 text-sm text-foreground">
+                  {log.ip_address || '-'}
                 </td>
               </tr>
             ))}
