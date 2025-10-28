@@ -1,8 +1,10 @@
-import { Database } from "lucide-react";
+import { Database, Shield } from "lucide-react";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
+import { useNavigate } from "react-router-dom";
 
 export const DashboardHeader = () => {
+  const navigate = useNavigate();
   const currentTime = new Date().toLocaleString("pt-BR", {
     timeZone: "America/Sao_Paulo",
     hour: "2-digit",
@@ -40,8 +42,14 @@ export const DashboardHeader = () => {
                 Últimos 6 horas UTC
               </p>
             </div>
-            <Button variant="outline" size="sm" className="gap-2">
-              Atualizar
+            <Button 
+              variant="outline" 
+              size="sm" 
+              className="gap-2"
+              onClick={() => navigate("/sensitivity-config")}
+            >
+              <Shield className="h-4 w-4" />
+              Configurar Sensibilidade
             </Button>
           </div>
         </div>

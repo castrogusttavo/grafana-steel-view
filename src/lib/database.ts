@@ -305,3 +305,16 @@ export const formatBytes = (bytes: number, decimals: number = 2): string => {
 export const formatNumber = (num: number): string => {
   return num.toLocaleString("pt-BR");
 };
+
+/**
+ * Insert: Adiciona nova configuração de sensibilidade
+ * INSERT INTO root_sensitivity (root_path, sensitive) VALUES (?, ?)
+ */
+export const insertRootSensitivity = async (rootPath: string, sensitive: number): Promise<void> => {
+  const query = `
+    INSERT INTO root_sensitivity (root_path, sensitive) 
+    VALUES ('${rootPath.replace(/'/g, "''")}', ${sensitive})
+  `;
+  
+  await executeQuery(query);
+};
